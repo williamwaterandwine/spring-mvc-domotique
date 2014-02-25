@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/> 
+    <meta charset="utf-8"/>
+    <title>Application Domotique </title>
+    <meta name="generator" content="Bootply" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  </head>
+
+  <link href="/mvc-domotique/css/design.css" rel="stylesheet">        
+  </link>
+
+  <body>
+
+    <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+            <div class="container">
+                <div class="navbar-header">
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="/mvc-domotique/home" class="navbar-brand" title="Application domotique">Domotique</a>
+                </div>
+                <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a title="Accueil" href="/mvc-domotique/home">
+                                Accueil
+                            </a>
+                        </li>
+                        <li>
+                            <a title="Read" href="/mvc-domotique/readPin">
+                                Read Pin
+                            </a>
+                        </li>
+                        <li>
+                            <a title="Temperature" href="/mvc-domotique/readTemperature">
+                                Read Temperature
+                            </a>
+                        </li>
+                        <li>
+                            <a title="Set" href="/mvc-domotique/writePin">
+                                Write Pin
+                            </a>
+                        </li>
+                        <li>
+                            <a title="Blink" href="/mvc-domotique/blinkLed">
+                                Blink Led
+                            </a>
+                        </li>
+                        <li>
+                            <a title="Send" href="/mvc-domotique/sendJson">
+                                Envoyer JSON
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/mvc-domotique/about" title="About">About</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+    <div class="bs-header" id="content">
+      <div class="page-header">
+        <div class="container">
+          <h1>Envoyer une commande Json</h1>
+          <p>Renseigne la valeur d'une pin de l'arduino sélectionnée.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container bs-docs-container">
+      <div class="row">
+        <div class="col-md-6" role="main">
+          <!-- Global Bootstrap settings
+================================================== -->
+          <div class="bs-docs-section">
+
+            <h2>Arduinos Connectés</h2>
+            <form action="#" th:action="@{/sendJsonValue}" th:object="${arduinoModel}" method="post">
+              <table class="table table-striped">
+                <tr>
+                  <td><label>Listes des Arduinos </label></td>
+                  <td>  
+                    <div th:switch="${arduinoList}">
+                      <p th:case="null">Aucune arduino connectée.</p>
+                      <p th:case="'[]'">Pas d'arduino sur le serveur.</p> 
+                    </div>
+                    <div th:if="${arduinoList} != null">
+                      <ul>
+                        <li th:each="arduino : ${arduinoList}">
+                          <input type="checkbox" th:field="*{arduinoSelected}" th:value="${arduino.id}" name="id" />
+                          <label th:text="${arduino.id}">Arduino</label>
+                        </li>
+                      </ul>
+                    </div>
+                    <!-- <select id="arduinoId" th:field ="*{arduinoSelected}">
+                         <option th:each="arduino: ${arduinoList}" th:value="${arduino.id}" th:text="${arduino.id}" ></option>
+                     </select>-->
+                  </td>
+                  <td><th th:text="${arduinoError}" class="text-danger"></th></td>
+                </tr>
+              </table>
+
+
+
+              <h2>Commande</h2>
+
+
+              <table class="table table-striped">
+                <tr>
+                  <td><label>Commande Json</label></td>
+                  <td><input type="text" id="jsonCommand" name="jsonCommand" th:field="*{jsonCommand}" th:value="${jsonCommand}" /></td>
+                  <td><th th:text="${jsonCommandError}" class="text-danger"></th></td>
+                </tr>
+                <td><label>Exemple : [{"id":"1","pa":{"val":"1","pin":"8","mod":"b"},"ac":"pw"}]</label> </td>
+                <tr>
+                  <td colspan="2">
+                    <input type="submit" value="Envoyer"/>
+                  </td>
+                </tr>
+              </table> 
+            </form>
+          </div>
+        </div>
+
+
+        <div class="col-md-6" role="main">
+          <div th:if="${reponse != null}">
+            <h2>Reponse</h2>
+            <table class="table table-striped">
+              <tr>
+                <td><label>Message</label></td>
+                <td><th th:text="${reponse}"></th></td>
+              </tr>
+            </table> 
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <script type="text/javascript" src="/mvc-domotique/js/jquery.min.js" ></script>
+    <script type="text/javascript" src="/mvc-domotique/js/bootstrap.min.js"></script>
+
+  </body>
+
+
+
+
+  <!-- JavaScript jQuery code from Bootply.com editor -->
+
+  <script type='text/javascript'>
+
+    $(document).ready(function() {
+
+
+
+    });
+
+  </script>
+
+
+</html>
